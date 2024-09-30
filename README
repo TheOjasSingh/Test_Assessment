@@ -1,0 +1,13 @@
+node - api :
+# Build the API container
+docker build -t node-rest-api .
+
+# Run the container on the Docker network
+docker run -d --name api-container --network api-network -p 5000:5000 node-rest-api
+
+node - client :
+# Build the client container
+docker build -t node-api-client .
+
+# Run the client container on the same network
+docker run --rm --name client-container --network api-network node-api-client

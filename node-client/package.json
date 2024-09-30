@@ -1,0 +1,13 @@
+{
+    "name": "client-container",
+    "version": "1.0.0",
+    "description": "A simple Node.js client",
+    "main": "client.js",
+    "scripts": {
+      "start": "node client.js"
+    },
+    "dependencies": {
+      "axios": "^0.21.1"
+    }
+  }
+  
