@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-app-pod
+  labels:
+    app: node-app
+spec:
+  containers:
+  - name: api-container
+    image: ryuk17/node-api
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 3000
+    readinessProbe:
+      httpGet:
+        path: /hello
+        port: 3000
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 3
+  - name: client-container
+    image: ryuk17/node-client
+    imagePullPolicy: IfNotPresent
+    command: ["sh", "-c", "while true; do curl http://localhost:3000/hello; sleep 5; done"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+spec:
+  selector:
+    app: node-app
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30007
